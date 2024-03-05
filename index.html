@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>台灣加班費計算器</title>
+  </head>
+  <body>
+    <p>目前只支援平日加班，且單日加班不超過 2 小時的計算</p>
+    <span>月薪：</span><input id="monthSalary" />
+    <span>加班總時數：</span><input id="overtimeHours" />
+    <button onclick="calculate()">計算</button>
+    <p id="result"></p>
+    <script>
+      const calculate = () => {
+        const monthSalary = document.getElementById('monthSalary').value;
+        const overtimeHours = document.getElementById('overtimeHours').value;
+        const overtimeSalary = weekOvertimeCalculator(monthSalary, overtimeHours);
+        document.getElementById('result').innerText = (
+          `加班費為：${monthSalary} ÷ 240 × 4 ÷ 3 × ${overtimeHours} = ${overtimeSalary}`
+        );
+      };
+      const weekOvertimeCalculator = (monthSalary, overtimeHours) => {
+        const monthWorkHours = 240;
+        const hourSalary = monthSalary / monthWorkHours;
+        const overtimeSalary = (hourSalary * 4 / 3) 
+        return Math.ceil(overtimeSalary * overtimeHours);
+      };
+    </script>
+  </body>
+</html>
