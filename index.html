@@ -4,25 +4,53 @@
     <title>台灣加班費計算器</title>
   </head>
   <body>
-    <p>目前只支援平日加班，且單日加班不超過 2 小時的計算</p>
-    <span>月薪：</span><input id="monthSalary" />
-    <span>加班總時數：</span><input id="overtimeHours" />
+    <p>目前只支援平日及週六加班，且平日單日加班不超過 2 小時，週六單日加班不超過 8 小時的計算</p>
+    <span>月薪：</span>
+    <input id="monthSalary" />
+    <br />
+    <span>加班總時數：</span>
+    <input id="overtimeHours" />
+    <br />
+    <span>週六加班總時數（輸入前兩個小時的時數總和）：</span>
+    <input id="saturdayOvertimeHours1" />
+    <br />
+    <span>週六加班總時數（輸入超過兩個小時的時數總和）：</span>
+    <input id="saturdayOvertimeHours2" />
+    <br />
     <button onclick="calculate()">計算</button>
     <p id="result"></p>
     <script>
       const calculate = () => {
-        const monthSalary = document.getElementById('monthSalary').value;
-        const overtimeHours = document.getElementById('overtimeHours').value;
+        const monthSalary = document.getElementById('monthSalary').value || 0;
+        const overtimeHours = document.getElementById('overtimeHours').value || 0;
+        const saturdayOvertimeHours1 = document.getElementById('saturdayOvertimeHours1').value || 0;
+        const saturdayOvertimeHours2 = document.getElementById('saturdayOvertimeHours2').value || 0;
+        
         const overtimeSalary = weekOvertimeCalculator(monthSalary, overtimeHours);
+        const saturdayOvertimeSalary1 = weekOvertimeCalculator(monthSalary, saturdayOvertimeHours1);
+        const saturdayOvertimeSalary2 = weekOvertimeOverTwoHoursCalculator(monthSalary, saturdayOvertimeHours2);
         document.getElementById('result').innerText = (
-          `加班費為：${monthSalary} ÷ 240 × 4 ÷ 3 × ${overtimeHours} = ${overtimeSalary}`
+          `平日加班費為：${monthSalary} ÷ 240 × 4 ÷ 3 × ${overtimeHours} = ${overtimeSalary}
+          週六前兩個小時內的加班費總和為：${monthSalary} ÷ 240 × 4 ÷ 3 × ${saturdayOvertimeHours1} = ${saturdayOvertimeSalary1}
+          週六超過六個小時的加班費總和為：${monthSalary} ÷ 240 × 5 ÷ 3 × ${saturdayOvertimeHours2} = ${saturdayOvertimeSalary2}
+          總加班費為：${overtimeSalary} + ${saturdayOvertimeSalary1} + ${saturdayOvertimeSalary2} = ${
+            Math.ceil(overtimeSalary + saturdayOvertimeSalary1 + saturdayOvertimeSalary2)
+          }
+          `
         );
       };
-      const weekOvertimeCalculator = (monthSalary, overtimeHours) => {
+      const getHourSalary = (monthSalary) => {
         const monthWorkHours = 240;
         const hourSalary = monthSalary / monthWorkHours;
-        const overtimeSalary = (hourSalary * 4 / 3) 
-        return Math.ceil(overtimeSalary * overtimeHours);
+        return hourSalary;
+      };
+      const weekOvertimeCalculator = (monthSalary, overtimeHours) => {
+        const overtimeSalary = (getHourSalary(monthSalary) * 4 / 3) 
+        return overtimeSalary * overtimeHours;
+      };
+      const weekOvertimeOverTwoHoursCalculator = (monthSalary, overtimeHours) => {
+        const overtimeSalary = (getHourSalary(monthSalary) * 5 / 3) 
+        return overtimeSalary * overtimeHours;
       };
     </script>
   </body>
