@@ -30,9 +30,9 @@
         const saturdayOvertimeSalary1 = weekOvertimeCalculator(monthSalary, saturdayOvertimeHours1);
         const saturdayOvertimeSalary2 = weekOvertimeOverTwoHoursCalculator(monthSalary, saturdayOvertimeHours2);
         document.getElementById('result').innerText = (
-          `平日加班費為：${monthSalary} ÷ 240 × 4 ÷ 3 × ${overtimeHours} = ${overtimeSalary}
-          週六前兩個小時內的加班費總和為：${monthSalary} ÷ 240 × 4 ÷ 3 × ${saturdayOvertimeHours1} = ${saturdayOvertimeSalary1}
-          週六超過六個小時的加班費總和為：${monthSalary} ÷ 240 × 5 ÷ 3 × ${saturdayOvertimeHours2} = ${saturdayOvertimeSalary2}
+          `平日加班費為：${monthSalary} ÷ 240 × 1.34 × ${overtimeHours} = ${overtimeSalary}
+          週六前兩個小時內的加班費總和為：${monthSalary} ÷ 240 × 1.34 × ${saturdayOvertimeHours1} = ${saturdayOvertimeSalary1}
+          週六超過六個小時的加班費總和為：${monthSalary} ÷ 240 × 1.67 × ${saturdayOvertimeHours2} = ${saturdayOvertimeSalary2}
           總加班費為：${overtimeSalary} + ${saturdayOvertimeSalary1} + ${saturdayOvertimeSalary2} = ${
             Math.ceil(overtimeSalary + saturdayOvertimeSalary1 + saturdayOvertimeSalary2)
           }
@@ -45,11 +45,11 @@
         return hourSalary;
       };
       const weekOvertimeCalculator = (monthSalary, overtimeHours) => {
-        const overtimeSalary = (getHourSalary(monthSalary) * 4 / 3) 
+        const overtimeSalary = (getHourSalary(monthSalary) * 1.34) 
         return overtimeSalary * overtimeHours;
       };
       const weekOvertimeOverTwoHoursCalculator = (monthSalary, overtimeHours) => {
-        const overtimeSalary = (getHourSalary(monthSalary) * 5 / 3) 
+        const overtimeSalary = (getHourSalary(monthSalary) * 1.67) 
         return overtimeSalary * overtimeHours;
       };
     </script>
